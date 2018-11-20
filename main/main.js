@@ -5,14 +5,20 @@ module.exports = function main(array) {
 	total = 0;
 	for (i = 0; i < array.length; i++){
 		var key = array[i].Name;
+		
 		total  +=array[i].Price;
 		if (tmp.includes(key)){
 			var key_array = text_array[key];
 			key_array[0] += 1;
 			key_array[3] += array[i].Price;
+			key_array[1] = array[i].Unit.toLocaleString()+"s";
 		}else{
 			tmp.push(key);
-			text_array[key] = [1,array[i].Unit,array[i].Price,array[i].Price];
+			if (array[i].Unit == "a"){
+				text_array[key] = [1,"",array[i].Price,array[i].Price];
+			}else{
+				text_array[key] = [1,array[i].Unit.toLowerCase(),array[i].Price,array[i].Price];
+			}
 		}
 		
 	}
@@ -20,7 +26,9 @@ module.exports = function main(array) {
 		var whole_text = 'Name: '+ key;
 		whole_text+=', Quantity: ';
 		whole_text+=text_array[key][0].toString();
-		whole_text+= " ";
+		if (text_array[key][1]!=""){
+			whole_text+=" ";
+		}
 		whole_text+=text_array[key][1];
 		whole_text+=', Unit price: ';
 		whole_text+=text_array[key][2].toString();
